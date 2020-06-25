@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        p {
+            margin:0;
+        }
+        form{
+            display:table;
+            width:95%;
+        }
+        p{
+            display: table-row;
+        }
+        label{
+            display: table-cell;
+            vertical-align: top;
+        }
+        input{
+            display: table-cell;
+        }
+        #full{
+            width:100%;
+        }
+    </style>
+    <title>Main Page</title>
+</head>
+<body>
+    <div class="card">
+
+        <!-- Logo and name header -->
+        <div class="card-header">
+            <div class="col">
+                <a href="/logout">Log Out</a> 
+            </div>
+            <h1 class="text-center">Welcome, {{ user.first_name }}!</h1>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col p-4 bg-light m-4 border">
+
+                    <!-- Organizations list -->
+                    <h3 class="font-weight-bold">Here are the organizations you may join:</h3>
+                    <div>
+                        {% for org in member_count %}
+                            {% if user == org.uploaded_by %}
+                                <a href="/org/{{ org.id }}" class="font-weight-bold">{{ org.name }}</a> &mdash;
+                                <a href="/org/{{ org.id }}/delete" class="text-muted sm">Delete</a>
+                                <p class="font-italic" class = "name">Members: {{ org.joined_by.count }}</p>
+                                <p class="font-weight-lighter">{{ org.description }}</p>
+                                <br>
+                            {% else %}
+                                <a href="/org/{{ org.id }}" class="font-weight-bold">{{ org.name }}</a>
+                                <p class="font-italic" class = "name">Members: {{ org.joined_by.count }}</p>
+                                <p class="font-weight-lighter">{{ org.description }}</p>
+                                <br><br>
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                    </div>
+
+                </div>  
+                <div class="col p-4 bg-light m-4 border">
+                    
+                    <!-- Create new organization -->
+                    <h3 class="font-weight-bold">Create a new organization:</h3>
+                    {% if messages %}
+                        <ul class = "messages">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="text-danger" class = "{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <form action="/add_org" method="post">
+                        {% csrf_token %}
+                        <br>
+                        <p>
+                            <label for="name">Org Name:</label>
+                            <input name="name" id="full">
+                        </p>
+                        <br>
+                        <p>
+                            <label for="description">Description:</label>
+                            <textarea name="description" id="full"></textarea>
+                        </p>
+                        <br>
+                        <input type="submit" value="Create">
+                    </form>
+                
+                </div>
+            </div>    
+        </div>
+    </div>
+</body>
+</html>

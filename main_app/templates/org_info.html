@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        #edit_title{
+            width: 60%;
+            height: 4rem;
+            font-size: 30px;
+        }
+        #edit_description{
+            width: 95%;
+            height: auto;
+        }
+    </style>
+    <title>Organization Info</title>
+</head>
+<body>
+    <div class="card">
+
+        <!-- Logo and name header -->
+        <div class="card-header">
+            <div class="col float-right">
+                <a href="/logout">Log Out</a> &mdash;
+                <a href="/homepage">Homepage</a>
+            </div>
+        </div>
+
+        
+        <div class="row card-body">
+            <!-- Organization info  -->
+            <div class="col p-4 bg-light m-4 border">
+            
+                    <h3>{{ org.name }}</h3>
+                    <p>{{ org.description }}</p>
+                    <br>
+                    {% if user == org.uploaded_by %}
+                        <p class="font-italic">Created by: You!</p>
+                    {% else %}
+                        <p class="font-italic">Created by: {{ org.uploaded_by.first_name }} {{ org.uploaded_by.last_name }}</p>
+                    {% endif %}
+                    <br>
+                    <br>                
+                    <br>
+            </div>
+            <!-- Organization Members -->
+            <div class="col p-4 bg-light m-4 border">
+                
+                {% if user not in org.joined_by.all %}
+                    <a href="/org/{{ org.id }}/join" type="button" class="btn btn-primary float-right">Join Group</a>
+                {% else %}
+                    <a href="/org/{{ org.id }}/leave" type="button" class="btn btn-primary float-right">Leave Group</a>
+                {% endif %}
+                
+                <h5>Members:</h5>
+                {% for members in org.joined_by.all %}
+                    <ul>
+                        <li>{{ members.first_name }} {{ members.last_name }}</li>
+                    </ul>
+                {% endfor %}
+            
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

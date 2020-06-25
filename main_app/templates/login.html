@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        {% if messages %}
+            <ul class = "messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="text-danger" class = "{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                <h1>Registration</h1>
+                <form action="/registered" method="post" >
+                    {% csrf_token %}
+                    <br>
+                    <label for="first_name">First Name:</label>
+                    <input name="first_name" class="float-right">
+                    <br> <br>
+                    <label for="last_name">Last Name:</label>
+                    <input name="last_name" class="float-right">
+                    <br><br>
+                    <label for="email">Email:</label>
+                    <input name="email" class="float-right">
+                    <br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="float-right">
+                    <br><br>
+                    <label for="confirm">Confirm Password:</label>
+                    <input type="password" name="confirm" class="float-right">
+                    <br><br><br>
+                    <button type="submit" name="registration" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            <div class="col">
+                <h1>Login</h1>
+                <form action="/login" method="post">
+                    {% csrf_token %}
+                    <br>
+                    <label for="email">Email:</label>
+                    <input name="email" class="float-right">
+                    <br><br>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="float-right">
+                    <br>
+                    <br>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
